@@ -29,9 +29,8 @@ X_train, X_test, y_train, y_test = train_test_split(
 # print (y_test)
 
 
-
-cat_col = [1,2,3]
-num_col = [0,4]
+cat_col = [1, 2, 3]
+num_col = [0, 4]
 
 transform = ColumnTransformer(
     [
@@ -49,7 +48,6 @@ pipe = Pipeline(
 pipe.fit(X_train, y_train)
 
 
-
 predictions = pipe.predict(X_test)
 accuracy = accuracy_score(y_test, predictions)
 f1 = f1_score(y_test, predictions, average="macro")
@@ -58,7 +56,6 @@ print("Accuracy:", str(round(accuracy, 2) * 100) + "%", "F1:", round(f1, 2))
 
 with open("Results/metrics.txt", "w") as outfile:
     outfile.write(f"\nAccuracy = {round(accuracy, 2)}, F1 Score = {round(f1,2)}.")
-   
 
 
 cm = confusion_matrix(y_test, predictions, labels=pipe.classes_)
@@ -72,7 +69,7 @@ sio.dump(pipe, "Model/drug_pipeline.skops")
 # sio.load("Model/drug_pipeline.skops", trusted="True")
 
 unknown_types = sio.get_untrusted_types(file="Model/drug_pipeline.skops")
-print(unknown_types) 
+print(unknown_types)
 
 # 2. Only load if you trust these types
 loaded_model = sio.load("Model/drug_pipeline.skops", trusted=unknown_types)
