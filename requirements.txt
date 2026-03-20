@@ -1,2 +1,4 @@
 black
 pandas
+sklearn
+matplotlib
