@@ -1,28 +1,31 @@
 import gradio as gr
 import skops.io as sio
+import os
+model_path = os.path.join(os.path.dirname(__file__), "Model", "drug_pipeline.skops")
 
-unknown_types = sio.get_untrusted_types(file="./Model/drug_pipeline.skops")
-print(unknown_types)
+
+unknown_types = sio.get_untrusted_types(file=model_path)
+print("Untrusted types:", unknown_types)
+
+pipe = sio.load(
+    model_path,
+    trusted=unknown_types
+)
+
+print("Model loaded successfully")
+
 
 
 def predict_drug(age, sex, blood_pressure, cholesterol, na_to_k_ratio):
-    """Predict drugs based on patient features.
+    if pipe is None:
+        return "Model not loaded"
 
-    Args:
-        age (int): Age of patient
-        sex (str): Sex of patient 
-        blood_pressure (str): Blood pressure level
-        cholesterol (str): Cholesterol level
-        na_to_k_ratio (float): Ratio of sodium to potassium in blood
-
-    Returns:
-        str: Predicted drug label
-    """
     features = [age, sex, blood_pressure, cholesterol, na_to_k_ratio]
     predicted_drug = pipe.predict([features])[0]
 
-    label = f"Predicted Drug: {predicted_drug}"
-    return label
+    return f"Predicted Drug: {predicted_drug}"
+
+
 
 
 inputs = [
@@ -54,5 +57,4 @@ gr.Interface(
     title=title,
     description=description,
     article=article,
-    theme=gr.themes.Soft(),
-).launch()
+).launch(theme=gr.themes.Soft())
