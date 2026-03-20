@@ -1,4 +1,4 @@
 black
 pandas
-sklearn
+scikit-learn
 matplotlib
