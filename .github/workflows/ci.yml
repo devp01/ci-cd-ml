@@ -29,9 +29,14 @@ jobs:
       - name: Evaluation
         env:
           REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+<<<<<<< HEAD
         run: make eval
 
       - name: Update Branch
+=======
+        run: make eval  
+    - name: Update Branch
+>>>>>>> 93f95af (ci.yml update)
         env:
           NAME: ${{ secrets.USER_NAME }}
           EMAIL: ${{ secrets.USER_EMAIL }}
