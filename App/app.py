@@ -16,11 +16,11 @@ print("Model loaded successfully")
 
 
 
-def predict_drug(age, sex, blood_pressure, cholesterol, na_to_k_ratio):
+def predict_drug(age, sex, blood_pressure, cholesterol, na_to_k_ratio, ca, mg):
     if pipe is None:
         return "Model not loaded"
 
-    features = [age, sex, blood_pressure, cholesterol, na_to_k_ratio]
+    features = [age, sex, blood_pressure, cholesterol, na_to_k_ratio, ca, mg]
     predicted_drug = pipe.predict([features])[0]
 
     return f"Predicted Drug: {predicted_drug}"
@@ -34,14 +34,16 @@ inputs = [
     gr.Radio(["HIGH", "LOW", "NORMAL"], label="Blood Pressure"),
     gr.Radio(["HIGH", "NORMAL"], label="Cholesterol"),
     gr.Slider(6.2, 38.2, step=0.1, label="Na_to_K"),
+    gr.Slider(6.2, 38.2, step=0.1, label="Ca"),
+    gr.Slider(6.2, 38.2, step=0.1, label="Mg"),
 ]
 
 outputs = [gr.Label(num_top_classes=5)]
 
 examples = [
-    [30, "M", "HIGH", "NORMAL", 15.4],
-    [35, "F", "LOW", "NORMAL", 8],
-    [50, "M", "HIGH", "HIGH", 34],
+    [30, "M", "HIGH", "NORMAL", 15.4, 12.3, 15.5],
+    [35, "F", "LOW", "NORMAL", 8, 9.56, 15],
+    [50, "M", "HIGH", "HIGH", 34, 22.4, 18],
 ]
 
 title = "Drug Classification"
